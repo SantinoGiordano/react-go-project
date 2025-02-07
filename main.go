@@ -23,7 +23,7 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	PORT := os.
+	PORT := os.Getenv("PORT")
 
 	todos := []Todo{}
 
@@ -73,5 +73,5 @@ func main() {
 
 	})
 
-	log.Fatal(app.Listen(":4000"))
+	log.Fatal(app.Listen(":" + PORT))
 }
