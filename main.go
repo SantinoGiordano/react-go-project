@@ -1,9 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
+
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -21,7 +23,7 @@ var collection *mongo.Collection
 
 func main() {
 
-	fmt.Print("hello from port")
+	fmt.Println("hello world")
 
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -31,4 +33,17 @@ func main() {
 	MONGO_URI := os.Getenv("MONGO_URI")
 
 	clientOptions := options.Client().ApplyURI(MONGO_URI)
+	client, err := mongo.Connect(context.Background(), clientOptions)
+
+	if err != nil {
+		log.Fatal(err)
+
+	}
+	err = client.Ping(context.Background(), nil)
+	if err != nil {
+		log.Fatal(err)
+
+	}
+	fmt.Println("Connected to mongo db")
+
 }
