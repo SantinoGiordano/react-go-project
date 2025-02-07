@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 	"log"
-
+	"os"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // "os"
@@ -26,4 +27,8 @@ func main() {
 	if err != nil {
 		log.Fatal("Error Laoding .env file:", err)
 	}
+
+	MONGO_URI := os.Getenv("MONGO_URI")
+
+	clientOptions := options.Client().ApplyURI(MONGO_URI)
 }
