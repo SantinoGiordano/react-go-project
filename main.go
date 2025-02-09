@@ -55,7 +55,10 @@ func main() {
 	app.Patch("/api/todos/:id", updateTodo)
 	app.Delete("/api/todos/:id", deleteTodo)
 
+	port := os.Getenv("PORT")
+	if port == ""{
+		port = "4000"
+	}
 
-
-	
+	log.Fatal(app.Listen("0.0.0.0:" + port))
 }
