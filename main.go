@@ -60,18 +60,18 @@ func main() {
 	app.Delete("/api/todos/:id", deleteTodo)
 
 	port := os.Getenv("PORT")
-	if port == ""{
+	if port == "" {
 		port = "4000"
 	}
 
 	log.Fatal(app.Listen("0.0.0.0:" + port))
-	 
+
 }
 
-func getTodos( c *fiber.Ctx) error {
+func getTodos(c *fiber.Ctx) error {
 	var todos []Todo
 
-	cursor, err := collection.Find(context.Background(),bson.M{})
+	cursor, err := collection.Find(context.Background(), bson.M{})
 
 	if err != nil {
 		return err
@@ -79,14 +79,16 @@ func getTodos( c *fiber.Ctx) error {
 	defer cursor.Close(context.Background())
 
 	for cursor.Next(context.Background()) {
-		if err := cursor.Decode(&todo); err != nil{ 
+		var todo Todo
+		if err := cursor.Decode(&todo); err != nil {
 			return err
 		}
 		todos = append(todos, todo)
 	}
 	return c.JSON(todos)
 }
+
 // ping
-func createTodo( c *fiber.Ctx) error {}
-func updateTodo( c *fiber.Ctx) error {}
-func deleteTodo( c *fiber.Ctx) error {}
+// func createTodo( c *fiber.Ctx) error {}
+// func updateTodo( c *fiber.Ctx) error {}
+// func deleteTodo( c *fiber.Ctx) error {}
