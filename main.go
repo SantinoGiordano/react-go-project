@@ -46,6 +46,9 @@ func main() {
 		log.Fatal(err)
 
 	}
+
+	defer client.Disconnect(context.Background())
+
 	fmt.Println("Connected to mongo db")
 	collection = (client.Database("UserAppGo")).Collection("todos")
 
@@ -83,7 +86,7 @@ func getTodos( c *fiber.Ctx) error {
 	}
 	return c.JSON(todos)
 }
-
+// ping
 func createTodo( c *fiber.Ctx) error {}
 func updateTodo( c *fiber.Ctx) error {}
 func deleteTodo( c *fiber.Ctx) error {}
