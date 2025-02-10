@@ -61,4 +61,10 @@ func main() {
 	}
 
 	log.Fatal(app.Listen("0.0.0.0:" + port))
+	 
 }
+
+func getTodos( c *fiber.Ctx) error {}
+func createTodo( c *fiber.Ctx) error {}
+func updateTodo( c *fiber.Ctx) error {}
+func deleteTodo( c *fiber.Ctx) error {}
