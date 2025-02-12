@@ -56,7 +56,7 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/api/todos", getTodos)
-	// app.Post("/api/todos", createTodo)
+	app.Post("/api/todos", createTodo)
 	// app.Patch("/api/todos/:id", updateTodo)
 	// app.Delete("/api/todos/:id", deleteTodo)
 
@@ -90,22 +90,24 @@ func getTodos(c *fiber.Ctx) error {
 }
 
 
-func createTodo( c *fiber.Ctx) error {
-	todo := new(Todo)
-	if err := c.BodyParser(todo); err != nil {
-		return err 
-	}
-	if todo.Body == "" {
-		return c.Status(400).JSON(fiber.Map{"error": "Todo body is required"})
-	}
-	insertResult, err := collection.InsertOne(context.Background(),todo)
-	if err := nil{
-		return err 
-	}
+func createTodo(c *fiber.Ctx) error {
+    todo := new(Todo)
+    if err := c.BodyParser(todo); err != nil {
+        return err
+    }
+    if todo.Body == "" {
+        return c.Status(400).JSON(fiber.Map{"error": "Todo body is required"})
+    }
 
-	todo.ID = insertResult.InsertedID.{primitive.ObjectID}
+    insertResult, err := collection.InsertOne(context.Background(), todo)
+    if err != nil { 
+        return err
+    }
 
-	return c.Status(201).JSON(todo)
+    // Corrected field access
+    todo.ID = insertResult.InsertedID.(primitive.ObjectID)
+
+    return c.Status(201).JSON(todo)
 }
 // func updateTodo( c *fiber.Ctx) error {}
 // func deleteTodo( c *fiber.Ctx) error {}
