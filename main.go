@@ -88,7 +88,12 @@ func getTodos(c *fiber.Ctx) error {
 	return c.JSON(todos)
 }
 
-// ping
-// func createTodo( c *fiber.Ctx) error {}
+
+func createTodo( c *fiber.Ctx) error {
+	todo := new(Todo)
+	if err := c.BodyParser(todo); err != nil {
+		return err 
+	}
+}
 // func updateTodo( c *fiber.Ctx) error {}
 // func deleteTodo( c *fiber.Ctx) error {}
