@@ -94,6 +94,9 @@ func createTodo( c *fiber.Ctx) error {
 	if err := c.BodyParser(todo); err != nil {
 		return err 
 	}
+	if todo.Body == "" {
+		return c.Status(400).JSON(fiber.Map{"error": "Todo body is required"})
+	}
 }
 // func updateTodo( c *fiber.Ctx) error {}
 // func deleteTodo( c *fiber.Ctx) error {}
