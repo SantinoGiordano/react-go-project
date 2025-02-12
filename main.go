@@ -111,7 +111,10 @@ func createTodo(c *fiber.Ctx) error {
 func updateTodo( c *fiber.Ctx) error {
 	id := c.Params("id")
 	ObjectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+        return c.Status(400).JSON(fiber.Map{"error": "Invalid todo id"})
 
+	}
 }
 
 // func deleteTodo( c *fiber.Ctx) error {}
