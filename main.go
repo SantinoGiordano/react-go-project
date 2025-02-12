@@ -110,7 +110,7 @@ func createTodo(c *fiber.Ctx) error {
 }
 func updateTodo( c *fiber.Ctx) error {
 	id := c.Params("id")
-	ObjectID, err = primitive.ObjectIDFromHex(id)
+	ObjectID, err := primitive.ObjectIDFromHex(id)
 
 }
 
