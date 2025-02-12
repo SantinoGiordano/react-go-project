@@ -117,7 +117,14 @@ func updateTodo( c *fiber.Ctx) error {
 	}
 
 	filter := bson.M{"_id":ObjectID}
-	collection.UpdateOne(context.Background(),filter,update)
+	update := bson.M{"$set":bson.M{"completed":true}}
+	
+	_, err = collection.UpdateOne(context.Background(),filter,update)
+	if err != nil{
+		return err
+	}
+	return c.Status(200).JSON(fiber.Map{"success":true})
+
 }
 
 // func deleteTodo( c *fiber.Ctx) error {}
