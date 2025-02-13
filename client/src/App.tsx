@@ -1,15 +1,23 @@
 
-// import { Button } from '@chakra-ui/react/button'
 
-import { Button } from "@chakra-ui/react"
+import { Container, Stack } from "@chakra-ui/react"
+import Navbar from "./components/Navbar"
+import TodoForm from "./components/TodoForm"
 
 function App() {
 
 
   return (
     <>
-    <p>Hello World</p>
-    <Button>Hello</Button>
+
+    Hello
+    <Stack h="100vh">
+    <Navbar />
+    <Container>
+      <TodoForm />
+      {/* <TodoList /> */}
+    </Container>
+    </Stack>
     </>
   )
 }
