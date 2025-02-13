@@ -140,4 +140,5 @@ func deleteTodo(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+	return c.Status(200).JSON(fiber.Map{"success": true})
 }
