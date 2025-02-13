@@ -131,8 +131,13 @@ func deleteTodo(c *fiber.Ctx) error {
 	objectID, err := primitive.ObjectIDFromHex(id)
 
 	if err != nil {
-		return c.Status(400).JSON(fiber.Map{"error":"Invalid id"})
+		return c.Status(400).JSON(fiber.Map{"error": "Invalid id"})
 	}
 
+	filter := bson.M{"_id": objectID}
+	_, err = collection.DeleteOne(context.Background(), filter)
 	
+	if err != nil {
+		return err
+	}
 }
