@@ -17,9 +17,9 @@ import (
 // "os"
 
 type Todo struct {
-	ID        primitive.ObjectID    `json:"id, omitempty " bson:"_id, , omitempty`
-	Completed bool   `json:"completed"`
-	Body      string `json:"body"`
+	ID        primitive.ObjectID `json:"id, omitempty " bson:"_id, , omitempty`
+	Completed bool               `json:"completed"`
+	Body      string             `json:"body"`
 }
 
 var collection *mongo.Collection
@@ -58,7 +58,7 @@ func main() {
 	app.Get("/api/todos", getTodos)
 	app.Post("/api/todos", createTodo)
 	app.Patch("/api/todos/:id", updateTodo)
-	app.Delete("/api/todos/:id", deleteTodo)
+	// app.Delete("/api/todos/:id", deleteTodo)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -89,42 +89,41 @@ func getTodos(c *fiber.Ctx) error {
 	return c.JSON(todos)
 }
 
-
 func createTodo(c *fiber.Ctx) error {
-    todo := new(Todo)
-    if err := c.BodyParser(todo); err != nil {
-        return err
-    }
-    if todo.Body == "" {
-        return c.Status(400).JSON(fiber.Map{"error": "Todo body is required"})
-    }
+	todo := new(Todo)
+	if err := c.BodyParser(todo); err != nil {
+		return err
+	}
+	if todo.Body == "" {
+		return c.Status(400).JSON(fiber.Map{"error": "Todo body is required"})
+	}
 
-    insertResult, err := collection.InsertOne(context.Background(), todo)
-    if err != nil { 
-        return err
-    }
+	insertResult, err := collection.InsertOne(context.Background(), todo)
+	if err != nil {
+		return err
+	}
 
-    todo.ID = insertResult.InsertedID.(primitive.ObjectID)
+	todo.ID = insertResult.InsertedID.(primitive.ObjectID)
 
-    return c.Status(201).JSON(todo)
+	return c.Status(201).JSON(todo)
 }
 
-func updateTodo( c *fiber.Ctx) error {
+func updateTodo(c *fiber.Ctx) error {
 	id := c.Params("id")
 	ObjectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-        return c.Status(400).JSON(fiber.Map{"error": "Invalid todo id"})
+		return c.Status(400).JSON(fiber.Map{"error": "Invalid todo id"})
 	}
 
-	filter := bson.M{"_id":ObjectID}
-	update := bson.M{"$set":bson.M{"completed":true}}
-	
-	_, err = collection.UpdateOne(context.Background(),filter,update)
-	if err != nil{
+	filter := bson.M{"_id": ObjectID}
+	update := bson.M{"$set": bson.M{"completed": true}}
+
+	_, err = collection.UpdateOne(context.Background(), filter, update)
+	if err != nil {
 		return err
 	}
-	return c.Status(200).JSON(fiber.Map{"success":true})
+	return c.Status(200).JSON(fiber.Map{"success": true})
 
 }
 
-func deleteTodo( c *fiber.Ctx) error {}
+// func deleteTodo(c *fiber.Ctx) error {}
