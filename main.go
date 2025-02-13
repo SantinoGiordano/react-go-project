@@ -128,4 +128,11 @@ func updateTodo(c *fiber.Ctx) error {
 
 func deleteTodo(c *fiber.Ctx) error {
 	id := c.Params("id")
+	objectID, err := primitive.ObjectIDFromHex(id)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{"error":"Invalid id"})
+	}
+
+	
 }
